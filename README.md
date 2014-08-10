@@ -2,7 +2,7 @@
 Gomgo is a toy http json api server powered by Go and MongoDB. It does not use magic or not magic framework, but just Idiomatic HTTP Middleware and some Best Practices for Golang, e.g. middleware chain, error handling, jwt token. I use it as a micro project template myself.
 
 
-## Run and play with it
+## Run server
 1 Install Go and set up your [GOPATH](http://golang.org/doc/code.html#GOPATH), then install MongoDB and run it
 
 2 Install Go package
