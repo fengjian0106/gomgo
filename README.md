@@ -3,7 +3,7 @@ Gomgo is a toy http json api server powered by Go and MongoDB. It does not use m
 
 
 ## Run and play with it
-<1> Install Go and set up your [GOPATH](http://golang.org/doc/code.html#GOPATH), then install MongoDB and run it
+(1) Install Go and set up your [GOPATH](http://golang.org/doc/code.html#GOPATH), then install MongoDB and run it
 
 <2> Install Go package
 ~~~
@@ -108,6 +108,7 @@ If everything is ok, you will get response like below
 ## Thanks
 Thank these guys and their articles!
 [http://www.alexedwards.net/blog/a-recap-of-request-handling](http://www.alexedwards.net/blog/a-recap-of-request-handling)
+
 [http://capotej.com/blog/2013/10/07/golang-http-handlers-as-middleware/](http://capotej.com/blog/2013/10/07/golang-http-handlers-as-middleware/)
 [http://justinas.org/writing-http-middleware-in-go/](http://justinas.org/writing-http-middleware-in-go/)
 [http://justinas.org/alice-painless-middleware-chaining-for-go/](http://justinas.org/alice-painless-middleware-chaining-for-go/)
