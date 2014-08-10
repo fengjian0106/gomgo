@@ -71,7 +71,7 @@ curl -v -X POST -H 'Content-Type: application/json'  \
 
 If you post blog success, you will get response like below
 ~~~
-{"postId": 53e49e68c3666ed09d000002}
+{"postId": "53e49e68c3666ed09d000002"}
 ~~~
 
 Copy `postId`, later we will use it
@@ -87,7 +87,7 @@ curl -v -X POST -H 'Content-Type: application/json'  \
 
 If you post comment success, you will get response like below
 ~~~
-{"postId": 53e49e68c3666ed09d000002, "commentId": 53e4a25bc3666ed09d000004}
+{"postId": "53e49e68c3666ed09d000002", "commentId": "53e4a25bc3666ed09d000004"}
 ~~~
 
 5 Get the post
