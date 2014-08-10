@@ -105,8 +105,7 @@ If everything is ok, you will get response like below
 
 
 
-## Thanks
-Thank these guys and their articles!
+## Thank these guys and their articles!
 [http://www.alexedwards.net/blog/a-recap-of-request-handling](http://www.alexedwards.net/blog/a-recap-of-request-handling)
 
 [http://capotej.com/blog/2013/10/07/golang-http-handlers-as-middleware/](http://capotej.com/blog/2013/10/07/golang-http-handlers-as-middleware/)
