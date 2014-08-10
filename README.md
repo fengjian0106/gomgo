@@ -3,9 +3,9 @@ Gomgo is a toy http json api server powered by Go and MongoDB. It does not use m
 
 
 ## Run and play with it
-(1) Install Go and set up your [GOPATH](http://golang.org/doc/code.html#GOPATH), then install MongoDB and run it
+1 Install Go and set up your [GOPATH](http://golang.org/doc/code.html#GOPATH), then install MongoDB and run it
 
-<2> Install Go package
+2 Install Go package
 ~~~
 go get github.com/gorilla/mux
 go get github.com/justinas/alice
@@ -18,17 +18,17 @@ go get code.google.com/p/go.crypto/bcrypt
 go get github.com/dgrijalva/jwt-go
 ~~~
 
-<3> Get this code 
+3 Get this code 
 ~~~
 go get github.com/fengjian0106/gomgo
 ~~~
 
-<4> Build
+4 Build
 ~~~
 sh build.sh
 ~~~
 
-<5> Run the server 
+5 Run the server 
 ~~~
 sh build.sh
 ~~~
@@ -39,14 +39,14 @@ You will now have a Go net/http webserver running on `localhost:3000`.
 ## Request the server
 Use curl to make http request
 
-<1> Register new user
+1 Register new user
 ~~~
 curl -v -X POST -H 'Content-Type: application/json' \
      -d '{"email": "helloworld@gmai.com", "password": "123456", "name": "helloworld"}' \
      http://127.0.0.1:8080/api/users
 ~~~
 
-<2> Login
+2 Login
 ~~~
 curl -v -X POST -H 'Content-Type: application/json'  \
      -d '{"email": "helloworld@gmai.com", "password": "123456"}'  \
@@ -60,7 +60,7 @@ After login, you will get response like below
 
 Copy `userId` and `token`, later we will use it
 
-<3> Create a blog post
+3 Create a blog post
 !! use `userId` and `token` you copied in last step !!
 ~~~
 curl -v -X POST -H 'Content-Type: application/json'  \
@@ -76,7 +76,7 @@ If you post blog success, you will get response like below
 
 Copy `postId`, later we will use it
 
-<4> Create a comment for a blog
+4 Create a comment for a blog
 !! Normal, somebody else will create a comment for your post. Inorder to demonstrate this, you need register another user, and repeat step <1> and <2>, then you will get a new pair of `userId` and `token`. Copy them, also copy the `postId` you get in step <3>, we will use them !!
 ~~~
 curl -v -X POST -H 'Content-Type: application/json'  \
@@ -90,7 +90,7 @@ If you post comment success, you will get response like below
 {"postId": 53e49e68c3666ed09d000002, "commentId": 53e4a25bc3666ed09d000004}
 ~~~
 
-<5> Get the post
+5 Get the post
 Everyone can get post by the postId, so let's use the new `token` received in step <4> to get the post with the `postId` received in step <3>
 ~~~
 curl -v --compressed -X GET -H 'Content-Type: application/json'  \
@@ -110,11 +110,17 @@ Thank these guys and their articles!
 [http://www.alexedwards.net/blog/a-recap-of-request-handling](http://www.alexedwards.net/blog/a-recap-of-request-handling)
 
 [http://capotej.com/blog/2013/10/07/golang-http-handlers-as-middleware/](http://capotej.com/blog/2013/10/07/golang-http-handlers-as-middleware/)
+
 [http://justinas.org/writing-http-middleware-in-go/](http://justinas.org/writing-http-middleware-in-go/)
+
 [http://justinas.org/alice-painless-middleware-chaining-for-go/](http://justinas.org/alice-painless-middleware-chaining-for-go/)
+
 [http://elithrar.github.io/article/custom-handlers-avoiding-globals/](http://elithrar.github.io/article/custom-handlers-avoiding-globals/)
+
 [http://angular-tips.com/blog/2014/05/json-web-tokens-introduction/](http://angular-tips.com/blog/2014/05/json-web-tokens-introduction/)
+
 [http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api](http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api)
+
 [https://github.com/soygul/koan](https://github.com/soygul/koan)
 
 
