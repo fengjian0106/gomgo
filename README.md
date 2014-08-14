@@ -30,7 +30,7 @@ sh build.sh
 
 5 Run the server 
 ~~~
-sh build.sh
+./gomgo
 ~~~
 You will now have a Go net/http webserver running on `localhost:3000`.
 
