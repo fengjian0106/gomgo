@@ -2,8 +2,9 @@ package database
 
 import "fmt"
 
+type DbErrorCode int
 type DbError struct {
-	Code int
+	Code DbErrorCode
 	Err  error
 }
 
@@ -16,8 +17,8 @@ func (err *DbError) Error() string {
 }
 
 const (
-	DbErrorModalLackRequiredPrpty = 20101
-	DbErrorModalPrptyErr          = 20102
+	DbErrorModalLackRequiredPrpty DbErrorCode = 20101
+	DbErrorModalPrptyErr                      = 20102
 
 	DbErrorInsertErr = 20201
 	DbErrorDeleteErr = 20202
