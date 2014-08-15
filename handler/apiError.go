@@ -2,9 +2,10 @@ package handler
 
 import "fmt"
 
+type ApiErrorCode int
 type ApiError struct {
-	Code int   `json: "code"`
-	Err  error `json: "err"`
+	Code ApiErrorCode `json: "code"`
+	Err  error        `json: "err"`
 }
 
 func (err *ApiError) Error() string {
@@ -17,9 +18,9 @@ func (err *ApiError) Error() string {
 
 //error code define  _ __ __
 const (
-	ApiErrorNotAuth               = 10101
-	ApiErrorAuthPwdError          = 10102
-	ApiErrorAuthIdentifieNotFound = 10103 //name or email
+	ApiErrorNotAuth               ApiErrorCode = 10101
+	ApiErrorAuthPwdError                       = 10102
+	ApiErrorAuthIdentifieNotFound              = 10103 //name or email
 
 	ApiErrorParamNeedId     = 10201
 	ApiErrorParamIdNotFound = 10202
