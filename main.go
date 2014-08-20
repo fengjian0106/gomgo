@@ -23,7 +23,7 @@ import (
 )
 
 func timeoutHandler(h http.Handler) http.Handler {
-	return http.TimeoutHandler(h, 1*time.Second, "timed out")
+	return http.TimeoutHandler(h, 5*time.Second, "timed out")
 }
 
 func requestLogHandler(h http.Handler) http.Handler {
@@ -105,6 +105,8 @@ func main() {
 	apiRouter.Handle("/api/posts/{postId}/comments", handler.ApiHandler{context, handler.CreateCommentForPostIdHandler}).Methods("POST")
 	apiRouter.Handle("/api/users/{userId}/posts", handler.ApiHandler{context, handler.GetPostsByUserIdHandler}).Methods("GET")
 	apiRouter.Handle("/api/users/{userId}/posts", handler.ApiHandler{context, handler.CreatePostHandler}).Methods("POST")
+
+	apiRouter.Handle("/api/testzmq/{message}", handler.ApiHandler{context, handler.TestZMQHandler}).Methods("GET")
 
 	//<3> register middleware for api handler
 	// Allow 30 requests per minute
