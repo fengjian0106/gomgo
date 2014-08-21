@@ -10,11 +10,11 @@ import (
 	"github.com/gorilla/mux"
 	"gopkg.in/mgo.v2/bson"
 
-	"github.com/fengjian0106/gomgo/context"
+	"github.com/fengjian0106/gomgo/appcontext"
 	"github.com/fengjian0106/gomgo/database"
 )
 
-func CreateUserHandler(context *context.Context, w http.ResponseWriter, r *http.Request) (int, error) {
+func CreateUserHandler(appCtx *appcontext.AppContext, w http.ResponseWriter, r *http.Request) (int, error) {
 	type userHttpClientParams struct {
 		Email    string
 		Password string
@@ -34,7 +34,7 @@ func CreateUserHandler(context *context.Context, w http.ResponseWriter, r *http.
 		return http.StatusBadRequest, &ApiError{ApiErrorParamErr, errors.New("email paassword and name can not be nil")}
 	}
 
-	if context.Db.CheckEmailUnique(clientUser.Email) == false {
+	if appCtx.Db.CheckEmailUnique(clientUser.Email) == false {
 		return http.StatusBadRequest, &ApiError{ApiErrorParamErr, errors.New("email has been registered")}
 	}
 
@@ -42,7 +42,7 @@ func CreateUserHandler(context *context.Context, w http.ResponseWriter, r *http.
 	hashPwd, err := bcrypt.GenerateFromPassword([]byte(clientUser.Password), bcrypt.DefaultCost)
 	newUser := database.User{bson.NewObjectId(), clientUser.Email, string(hashPwd), clientUser.Name}
 
-	err = context.Db.CreateUser(&newUser)
+	err = appCtx.Db.CreateUser(&newUser)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -55,7 +55,7 @@ func CreateUserHandler(context *context.Context, w http.ResponseWriter, r *http.
 	return http.StatusOK, nil
 }
 
-func GetUserByUserIdHandler(context *context.Context, w http.ResponseWriter, r *http.Request) (int, error) {
+func GetUserByUserIdHandler(appCtx *appcontext.AppContext, w http.ResponseWriter, r *http.Request) (int, error) {
 	//<1> get token string
 	tokenStr, err := parseJwtTokenStrFromHeaderOrUrlQuery(r.Header, r.URL)
 	if err != nil {
@@ -83,7 +83,7 @@ func GetUserByUserIdHandler(context *context.Context, w http.ResponseWriter, r *
 		return http.StatusBadRequest, &ApiError{ApiErrorParamIdFmtErr, errors.New("wrong format id")}
 	}
 
-	user, err := context.Db.GetUserById(bson.ObjectIdHex(id))
+	user, err := appCtx.Db.GetUserById(bson.ObjectIdHex(id))
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -105,7 +105,7 @@ func GetUserByUserIdHandler(context *context.Context, w http.ResponseWriter, r *
 	return http.StatusOK, nil
 }
 
-func GetUsersHandler(context *context.Context, w http.ResponseWriter, r *http.Request) (int, error) {
+func GetUsersHandler(appCtx *appcontext.AppContext, w http.ResponseWriter, r *http.Request) (int, error) {
 	//<1> get token string
 	tokenStr, err := parseJwtTokenStrFromHeaderOrUrlQuery(r.Header, r.URL)
 	if err != nil {
@@ -119,7 +119,7 @@ func GetUsersHandler(context *context.Context, w http.ResponseWriter, r *http.Re
 	}
 
 	//<3>
-	users, err := context.Db.GetUsers()
+	users, err := appCtx.Db.GetUsers()
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -143,9 +143,9 @@ func GetUsersHandler(context *context.Context, w http.ResponseWriter, r *http.Re
 }
 
 /** TODO
-func ChangeUserPwdHandler(context *context.Context, w http.ResponseWriter, r *http.Request) (int, error) {
+func ChangeUserPwdHandler(appCtx *appcontext.AppContext, w http.ResponseWriter, r *http.Request) (int, error) {
 }
 
-func RestUserPwdHandler(context *context.Context, w http.ResponseWriter, r *http.Request) (int, error) {
+func RestUserPwdHandler(appCtx *appcontext.AppContext, w http.ResponseWriter, r *http.Request) (int, error) {
 }
 */
