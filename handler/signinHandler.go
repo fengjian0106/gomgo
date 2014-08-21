@@ -9,7 +9,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fengjian0106/gomgo/context"
+	"github.com/fengjian0106/gomgo/appcontext"
 	"github.com/fengjian0106/gomgo/database"
 )
 
@@ -18,7 +18,7 @@ type ApiToken struct {
 	Token  string `json:"token"`
 }
 
-func PostSigninHandler(context *context.Context, w http.ResponseWriter, r *http.Request) (int, error) {
+func PostSigninHandler(appCtx *appcontext.AppContext, w http.ResponseWriter, r *http.Request) (int, error) {
 	type clientUserSigninInfo struct {
 		Email    string
 		Password string
@@ -33,7 +33,7 @@ func PostSigninHandler(context *context.Context, w http.ResponseWriter, r *http.
 	}
 
 	//<2>get user
-	user, err := context.Db.GetUserByEmail(userSigninInfo.Email)
+	user, err := appCtx.Db.GetUserByEmail(userSigninInfo.Email)
 	if err != nil {
 		return http.StatusBadRequest, &ApiError{ApiErrorParamErr, errors.New("user not found")}
 	}

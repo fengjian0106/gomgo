@@ -31,5 +31,8 @@ const (
 	ApiErrorTokenParseErr = 10302
 	ApiErrorTokenNotFound = 10303
 
+	ApiErrorGoogleSearchQueryWordNotFound = 10401
+	ApiErrorGoogleSearchErr               = 10402
+
 	ApiErrorUnknow = 19901
 )

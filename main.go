@@ -17,13 +17,13 @@ import (
 	"github.com/justinas/alice"
 	"github.com/stretchr/graceful"
 
-	"github.com/fengjian0106/gomgo/context"
+	"github.com/fengjian0106/gomgo/appcontext"
 	"github.com/fengjian0106/gomgo/handler"
 	"github.com/fengjian0106/gomgo/middleware"
 )
 
 func timeoutHandler(h http.Handler) http.Handler {
-	return http.TimeoutHandler(h, 1*time.Second, "timed out")
+	return http.TimeoutHandler(h, 10*time.Second, "timed out")
 }
 
 func requestLogHandler(h http.Handler) http.Handler {
@@ -84,9 +84,9 @@ func main() {
 	log.SetFlags(log.Lshortfile)
 	log.Printf("Starting server, os.Args=%s", strings.Join(os.Args, " "))
 
-	//<1> context
-	context, err := context.New()
-	defer context.FreeResource()
+	//<1> appcontext
+	appCtx, err := appcontext.New()
+	defer appCtx.FreeResource()
 	if err != nil {
 		log.Fatal(err)
 		panic(err)
@@ -95,16 +95,22 @@ func main() {
 	//<2> register api handler
 	apiRouter := mux.NewRouter()
 
-	apiRouter.Handle("/api/signin", handler.ApiHandler{context, handler.PostSigninHandler}).Methods("POST")
+	apiRouter.Handle("/api/signin", handler.ApiHandler{appCtx, handler.PostSigninHandler}).Methods("POST")
 
-	apiRouter.Handle("/api/users", handler.ApiHandler{context, handler.GetUsersHandler}).Methods("GET")
-	apiRouter.Handle("/api/users", handler.ApiHandler{context, handler.CreateUserHandler}).Methods("POST")
-	apiRouter.Handle("/api/users/{userId}", handler.ApiHandler{context, handler.GetUserByUserIdHandler}).Methods("GET")
+	apiRouter.Handle("/api/users", handler.ApiHandler{appCtx, handler.GetUsersHandler}).Methods("GET")
+	apiRouter.Handle("/api/users", handler.ApiHandler{appCtx, handler.CreateUserHandler}).Methods("POST")
+	apiRouter.Handle("/api/users/{userId}", handler.ApiHandler{appCtx, handler.GetUserByUserIdHandler}).Methods("GET")
 
-	apiRouter.Handle("/api/posts/{postId}", handler.ApiHandler{context, handler.GetPostByPostIdHandler}).Methods("GET")
-	apiRouter.Handle("/api/posts/{postId}/comments", handler.ApiHandler{context, handler.CreateCommentForPostIdHandler}).Methods("POST")
-	apiRouter.Handle("/api/users/{userId}/posts", handler.ApiHandler{context, handler.GetPostsByUserIdHandler}).Methods("GET")
-	apiRouter.Handle("/api/users/{userId}/posts", handler.ApiHandler{context, handler.CreatePostHandler}).Methods("POST")
+	apiRouter.Handle("/api/posts/{postId}", handler.ApiHandler{appCtx, handler.GetPostByPostIdHandler}).Methods("GET")
+	apiRouter.Handle("/api/posts/{postId}/comments", handler.ApiHandler{appCtx, handler.CreateCommentForPostIdHandler}).Methods("POST")
+	apiRouter.Handle("/api/users/{userId}/posts", handler.ApiHandler{appCtx, handler.GetPostsByUserIdHandler}).Methods("GET")
+	apiRouter.Handle("/api/users/{userId}/posts", handler.ApiHandler{appCtx, handler.CreatePostHandler}).Methods("POST")
+
+	/**
+	/api/search handler is a demo for request-scoped context
+	see http://blog.golang.org/context and http://godoc.org/code.google.com/p/go.net/context
+	*/
+	apiRouter.Handle("/api/search", handler.ApiHandler{appCtx, handler.GoogleSearchHandler}).Methods("GET")
 
 	//<3> register middleware for api handler
 	// Allow 30 requests per minute
