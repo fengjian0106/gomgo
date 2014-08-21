@@ -60,8 +60,8 @@ After login, you will get response like below
 
 Copy `userId` and `token`, later we will use it
 
-3 Create a blog post
-!! use `userId` and `token` you copied in last step !!
+3 Create a blog post  
+Use `userId` and `token` you copied in last step 
 ~~~
 curl -v -X POST -H 'Content-Type: application/json'  \
      -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJQYWRkaW5nIjoie1wiaWRcIjpcIjUzZTQ5YjA3YzM2NjZlZDA5ZDAwMDAwMVwiLFwibmFtZVwiOlwiaGVsbG93b3JsZFwifSIsIlRva2VuVHlwZSI6IkFjY2Vzc1Rva2VuIiwiZXhwIjoxNDEwMDgyOTU0fQ.XN8OsZJKzv0HdloP-6T53PY4eOA8v59zBeIf_-6F0lRAoUqGpT6kgyuisaDlDDU_KkFiubOS2Akg0lj_sls7XkJJCR5sDgCHV9pRAhK41c9OEvq1OmJl0uxbOh22WOtbTLtyi_H6rS5Rxe3lOiL7dS539uLgBTzQshnXxXEWnQVKTFbJB2DitVnZNuAZTEKxjp1sbXBsLWDQ3IdfVwHRY8gX2g5f44QMBx83Qd-yvf0kIv-_bBugX7LXzruihKI8-caUsuaDAi--MoAqmVVsTHCImJvLjyZIhMqaRZSry48qo4NPCgUqoZOSQ9QkxQ0N1jWuGL9ahAL5Wgr5qzwv9g" \
@@ -76,8 +76,8 @@ If you post blog success, you will get response like below
 
 Copy `postId`, later we will use it
 
-4 Create a comment for a blog
-!! Normal, somebody else will create a comment for your post. Inorder to demonstrate this, you need register another user, and repeat step <1> and <2>, then you will get a new pair of `userId` and `token`. Copy them, also copy the `postId` you get in step <3>, we will use them !!
+4 Create a comment for a blog  
+Normal, somebody else will create a comment for your post. Inorder to demonstrate this, you need register another user, and repeat step <1> and <2>, then you will get a new pair of `userId` and `token`. Copy them, also copy the `postId` you get in step <3>, we will use them 
 ~~~
 curl -v -X POST -H 'Content-Type: application/json'  \
      -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJQYWRkaW5nIjoie1wiaWRcIjpcIjUzZTRhMWU1YzM2NjZlZDA5ZDAwMDAwM1wiLFwibmFtZVwiOlwibmV3b25lXCJ9IiwiVG9rZW5UeXBlIjoiQWNjZXNzVG9rZW4iLCJleHAiOjE0MTAwODQ2NjZ9.lKGbdz6zYu5aXpk2Xq5JLYfcBG4kpD5Wa7NiExSQYddtawX_5rosAFsFzD-mNbmR79Ymtt8j22kuw-mC1vZbCx6BCgMtqtb9X3Q7pvEKZ-46WKSJ5E2sHGNZ3YZa-iTYIf4CD0_LmWeHT5UPm3MWYo14Hf-tr6sLUeovmp7NuXj0x-pJDogSJ815NctoWFHXVTcTwffd52WaPptQjeryisROo1qbtmjPAAgdXKFBDWiwe2nrzG4erpbxOiGAOy9CT5rUhMiqlCKC-FGhc4UZ9GQ6pnzbv72-5uQqfiEJc3EWSuSbuyrNa-CAHDapr90SN3j3hLrE45PNVpQxotubFg" \
@@ -90,7 +90,7 @@ If you post comment success, you will get response like below
 {"postId": "53e49e68c3666ed09d000002", "commentId": "53e4a25bc3666ed09d000004"}
 ~~~
 
-5 Get the post
+5 Get the post  
 Everyone can get post by the postId, so let's use the new `token` received in step <4> to get the post with the `postId` received in step <3>
 ~~~
 curl -v --compressed -X GET -H 'Content-Type: application/json'  \
@@ -106,7 +106,7 @@ If everything is ok, you will get response like below
 ## Distributed Systems
 Distributed Systems is interesting. I will also try to show some basic technique on how to implement it.
 
-1 RPC
+1 RPC  
 Path "/api/search" do a google search, and the handler call a remote REST service (If you want a RPC, the code will be same the like)
 
 You can test it like below, using keyword "golang"
@@ -119,7 +119,7 @@ And if success, you will get response like below
 {"data":[{"title":"The Go Programming Language","url":"http://golang.org/"},{"title":"A Tour of Go","url":"http://tour.golang.org/"},{"title":"Downloads - The Go Programming Language","url":"http://golang.org/dl/"},{"title":"Go (programming language) - Wikipedia, the free encyclopedia","url":"http://en.wikipedia.org/wiki/Go_(programming_language)"}],"elapsedSeconds":3.29384076}
 ~~~
 
-2 ZeroMQ, coming soon...
+2 ZeroMQ, coming soon...  
 
 
 ## Thank these guys and their articles!
