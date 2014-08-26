@@ -16,6 +16,8 @@ go get gopkg.in/mgo.v2
 go get gopkg.in/mgo.v2/bson
 go get code.google.com/p/go.crypto/bcrypt
 go get github.com/dgrijalva/jwt-go
+go get code.google.com/p/go.net/context
+go get github.com/pebbe/zmq4
 ~~~
 
 3 Get this code
