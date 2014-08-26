@@ -121,7 +121,7 @@ And if success, you will get response like below
 
 2 ZeroMQ
 Path "/api/zmp?msg=xxx" send a request and get a reply. And the architecture is shown as below  
-<pre>
+~~~
 +-----------------------------------+                                                                                                            
 |                                   |                                                                                                            
 |  +----------+       +----------+  |                                                                                                            
@@ -146,7 +146,7 @@ Path "/api/zmp?msg=xxx" send a request and get a reply. And the architecture is 
 +-----------------------------------+   |                                 +--------+                                                             
 |              client               | <-+                                                                                                        
 +-----------------------------------+                                                                                      
-</pre>                       
+~~~                       
 
 ##    
 
