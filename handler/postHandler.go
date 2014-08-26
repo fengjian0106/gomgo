@@ -13,11 +13,11 @@ import (
 
 	"fmt"
 
-	"github.com/fengjian0106/gomgo/context"
+	"github.com/fengjian0106/gomgo/appcontext"
 	"github.com/fengjian0106/gomgo/database"
 )
 
-func CreatePostHandler(context *context.Context, w http.ResponseWriter, r *http.Request) (int, error) {
+func CreatePostHandler(appCtx *appcontext.AppContext, w http.ResponseWriter, r *http.Request) (int, error) {
 	//log.Printf("postHandler.go, CreateposteatePostSigninHandler")
 	//log.Println(r.Header["Content-Type"])
 
@@ -73,7 +73,7 @@ func CreatePostHandler(context *context.Context, w http.ResponseWriter, r *http.
 		time.Now(),
 		time.Now(),
 		nil}
-	err = context.Db.CreatePost(&post)
+	err = appCtx.Db.CreatePost(&post)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -85,7 +85,7 @@ func CreatePostHandler(context *context.Context, w http.ResponseWriter, r *http.
 	return http.StatusOK, nil
 }
 
-func GetPostByPostIdHandler(context *context.Context, w http.ResponseWriter, r *http.Request) (int, error) {
+func GetPostByPostIdHandler(appCtx *appcontext.AppContext, w http.ResponseWriter, r *http.Request) (int, error) {
 	//<1> get token string
 	tokenStr, err := parseJwtTokenStrFromHeaderOrUrlQuery(r.Header, r.URL)
 	if err != nil {
@@ -106,7 +106,7 @@ func GetPostByPostIdHandler(context *context.Context, w http.ResponseWriter, r *
 		return http.StatusBadRequest, &ApiError{ApiErrorParamIdFmtErr, errors.New("wrong format id")}
 	}
 
-	post, err := context.Db.GetPostByPostId(bson.ObjectIdHex(id))
+	post, err := appCtx.Db.GetPostByPostId(bson.ObjectIdHex(id))
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -117,7 +117,7 @@ func GetPostByPostIdHandler(context *context.Context, w http.ResponseWriter, r *
 	return http.StatusOK, nil
 }
 
-func GetPostsByUserIdHandler(context *context.Context, w http.ResponseWriter, r *http.Request) (int, error) {
+func GetPostsByUserIdHandler(appCtx *appcontext.AppContext, w http.ResponseWriter, r *http.Request) (int, error) {
 	//<1> get token string
 	tokenStr, err := parseJwtTokenStrFromHeaderOrUrlQuery(r.Header, r.URL)
 	if err != nil {
@@ -138,7 +138,7 @@ func GetPostsByUserIdHandler(context *context.Context, w http.ResponseWriter, r 
 		return http.StatusBadRequest, &ApiError{ApiErrorParamIdFmtErr, errors.New("wrong format id")}
 	}
 
-	posts, err := context.Db.GetPostsByUserId(bson.ObjectIdHex(id))
+	posts, err := appCtx.Db.GetPostsByUserId(bson.ObjectIdHex(id))
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -149,7 +149,7 @@ func GetPostsByUserIdHandler(context *context.Context, w http.ResponseWriter, r 
 	return http.StatusOK, nil
 }
 
-func CreateCommentForPostIdHandler(context *context.Context, w http.ResponseWriter, r *http.Request) (int, error) {
+func CreateCommentForPostIdHandler(appCtx *appcontext.AppContext, w http.ResponseWriter, r *http.Request) (int, error) {
 	//<1> get token string
 	tokenStr, err := parseJwtTokenStrFromHeaderOrUrlQuery(r.Header, r.URL)
 	if err != nil {
@@ -201,7 +201,7 @@ func CreateCommentForPostIdHandler(context *context.Context, w http.ResponseWrit
 		clientComment.From,
 		clientComment.Message,
 		time.Now()}
-	err = context.Db.CreateCommentForPostId(&comment, bson.ObjectIdHex(postId))
+	err = appCtx.Db.CreateCommentForPostId(&comment, bson.ObjectIdHex(postId))
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}

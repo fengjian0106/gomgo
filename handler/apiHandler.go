@@ -4,19 +4,19 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/fengjian0106/gomgo/context"
+	"github.com/fengjian0106/gomgo/appcontext"
 	"github.com/fengjian0106/gomgo/database"
 )
 
 type ApiHandler struct {
-	Context *context.Context
-	Handler func(*context.Context, http.ResponseWriter, *http.Request) (int, error)
+	AppCtx  *appcontext.AppContext
+	Handler func(*appcontext.AppContext, http.ResponseWriter, *http.Request) (int, error)
 }
 
 //if you want server-end rendering view, maybe you can use ViewHandler
 
 func (ah ApiHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	status, err := ah.Handler(ah.Context, w, r)
+	status, err := ah.Handler(ah.AppCtx, w, r)
 	if err != nil {
 		//log.Printf("HTTP %d: %v", status, err)
 		var errJson string

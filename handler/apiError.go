@@ -31,5 +31,13 @@ const (
 	ApiErrorTokenParseErr = 10302
 	ApiErrorTokenNotFound = 10303
 
+	ApiErrorGoogleSearchQueryWordNotFound = 10401
+	ApiErrorGoogleSearchErr               = 10402
+
+	ApiErrorZmqMsgNotFound        = 10501
+	ApiErrorZmqCanNotCreateSocket = 10502
+	ApiErrorZmqRequestTimeout     = 10503
+	ApiErrorZmqErr                = 10504
+
 	ApiErrorUnknow = 19901
 )
