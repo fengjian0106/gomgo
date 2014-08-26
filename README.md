@@ -119,7 +119,7 @@ And if success, you will get response like below
 {"data":[{"title":"The Go Programming Language","url":"http://golang.org/"},{"title":"A Tour of Go","url":"http://tour.golang.org/"},{"title":"Downloads - The Go Programming Language","url":"http://golang.org/dl/"},{"title":"Go (programming language) - Wikipedia, the free encyclopedia","url":"http://en.wikipedia.org/wiki/Go_(programming_language)"}],"elapsedSeconds":3.29384076}
 ~~~
 
-2 ZeroMQ
+2 ZeroMQ  
 Path "/api/zmp?msg=xxx" send a request and get a reply. And the architecture is shown as below  
 ~~~
 +-----------------------------------+                                                                                                            
