@@ -1,5 +1,5 @@
 # gomgo
-Gomgo is a toy http json api server powered by Go and MongoDB. It does not use magic or not magic framework, but just Idiomatic HTTP Middleware and some Best Practices for Golang, e.g. middleware chain, error handling, jwt token. I use it as a micro project template myself.
+Gomgo is a toy http json api server powered by Golang and MongoDB and ZeroMQ. It does not use magic or not magic framework, but just Idiomatic HTTP Middleware and some Best Practices for Golang, e.g. middleware chain, error handling, jwt token. I use it as a micro project template myself.
 
 
 ## Run server
@@ -107,11 +107,11 @@ If everything is ok, you will get response like below
 Distributed Systems is interesting. I will also try to show some basic technique on how to implement it.
 
 1 RPC  
-Path "/api/search" do a google search, and the handler call a remote REST service (If you want a RPC, the code will be same the like)
+Path "/api/search?q=xxx&timeout=1s" do a google search, and the handler call a remote REST service (If you want a RPC, the code will be same the like)
 
 You can test it like below, using keyword "golang"
 ~~~
-curl -v --compressed -X GET -H 'Content-Type: application/json' http://127.0.0.1:8080/api/search?q=golang
+curl -v --compressed -X GET -H 'Content-Type: application/json' http://127.0.0.1:8080/api/search?q=golang&timeout=2s
 ~~~
 
 And if success, you will get response like below
@@ -119,8 +119,64 @@ And if success, you will get response like below
 {"data":[{"title":"The Go Programming Language","url":"http://golang.org/"},{"title":"A Tour of Go","url":"http://tour.golang.org/"},{"title":"Downloads - The Go Programming Language","url":"http://golang.org/dl/"},{"title":"Go (programming language) - Wikipedia, the free encyclopedia","url":"http://en.wikipedia.org/wiki/Go_(programming_language)"}],"elapsedSeconds":3.29384076}
 ~~~
 
-2 ZeroMQ, coming soon...  
+2 ZeroMQ
+Path "/api/zmp?msg=xxx" send a request and get a reply. And the architecture is shown as below  
 
++-----------------------------------+                                                                                                            
+|                                   |                                                                                                            
+|  +----------+       +----------+  |                                                                                                            
+|  |ZMQHandler|  ...  |ZMQHandler|  |                                                                                                            
+|  +----------+       +----------+  |                                                                                                            
+|                                   |                                                                                                            
+|       ^                  ^        |                                                                                                            
+|       |       gomgo      |        |                                                                                                            
+|       |                  |        |                                                                                                            
+|       v                  v        |                                     +--------+                                                             
+|                                   |                                +--> | worker |                                                             
+|     +----------------------+      |                                |    +--------+                                                             
+|     |     go msgQueue()    |  <-------+      +---------------+     |                                                                           
+|     +----------------------+      |   |      |               | <---+                                                                           
+|                                   |   +----> |               |                                                                     
++-----------------------------------+          |  reqRepBroker |            ......                                                          
+                                        +----> |               |                                                                      
+                                        |      |               | <---+                                                                           
+               ......                   |      +---------------+     |                                                                           
+                                        |                            |    +--------+                                                             
+                                        |                            +--> | worker |                                                             
++-----------------------------------+   |                                 +--------+                                                             
+|              client               | <-+                                                                                                        
++-----------------------------------+                                                                                                            
+
+
+Enter the dir zmqReqRepBrokerServer/nodejs-server, and install node.js dependency  
+~~~
+npm install
+~~~
+
+After run gomgo, you should also run ONLY ONE zeromq reqRepBroker  
+~~~
+node reqRepBroker.js
+~~~
+
+And run ONE or MANY zeromq worker 
+~~~
+node worker.js
+~~~
+
+And optional, you can run ONE or MANY zeromq client  
+~~~
+node client.js
+~~~
+
+Finally, it's time to test it with curl
+~~~
+curl -v --compressed -X GET -H 'Content-Type: application/json' http://127.0.0.1:8080/api/zmq?msg=helloworld
+~~~
+
+And if success, you will get response like below
+~~~
+{"retMsg": "node.js server [81043] echo: helloworld [1]"}
+~~~
 
 ## Thank these guys and their articles!
 [http://www.alexedwards.net/blog/a-recap-of-request-handling](http://www.alexedwards.net/blog/a-recap-of-request-handling)

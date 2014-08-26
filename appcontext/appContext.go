@@ -11,6 +11,7 @@ type AppContext struct {
 }
 
 func New() (*AppContext, error) {
+	//<1> mongodb
 	db, err := database.New()
 	if err != nil {
 		return nil, err

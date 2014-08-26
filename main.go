@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 
@@ -76,6 +77,7 @@ var (
 )
 
 func main() {
+	runtime.GOMAXPROCS(3)
 	flag.Parse()
 
 	//<0>
@@ -107,14 +109,20 @@ func main() {
 	apiRouter.Handle("/api/users/{userId}/posts", handler.ApiHandler{appCtx, handler.CreatePostHandler}).Methods("POST")
 
 	/**
-	/api/search handler is a demo for request-scoped context
+	/api/search?q=xxx&timeout=1s  handler is a demo for request-scoped context
 	see http://blog.golang.org/context and http://godoc.org/code.google.com/p/go.net/context
 	*/
 	apiRouter.Handle("/api/search", handler.ApiHandler{appCtx, handler.GoogleSearchHandler}).Methods("GET")
 
+	/**
+	/api/zmp?msg=xxx  handler is a demo for zeremq useage
+	*/
+	apiRouter.Handle("/api/zmq", handler.ApiHandler{appCtx, handler.ZMQWithTimeoutHandler}).Methods("GET")
+
 	//<3> register middleware for api handler
 	// Allow 30 requests per minute
 	th := throttled.RateLimit(throttled.PerMin(30), &throttled.VaryBy{RemoteAddr: true}, store.NewMemStore(1000))
+	//log.Println(th)
 
 	chain := alice.New(
 		middleware.MakeRecoverMiddleware, //recover can not work well, TODO, FIXME
@@ -127,6 +135,7 @@ func main() {
 	//<4> staticServer
 	//this a simple static file server. If you want more control, e.g. ETag, you can use StaticServer in  http://godoc.org/github.com/golang/gddo/httputil
 	fileServerHandler := http.FileServer(http.Dir(*assetsDir))
+	log.Println("public file path is:", *assetsDir)
 
 	//<5>
 	/**
@@ -134,8 +143,6 @@ func main() {
 		log.Fatal(err)
 	}
 	*/
-
-	log.Println("public file path is:", *assetsDir)
 	//https://github.com/stretchr/graceful.git
 	graceful.Run(*httpAddr, 10*time.Second, prefixMux{{"/api/", chain}, {"/public/", http.StripPrefix("/public/", fileServerHandler)}})
 }

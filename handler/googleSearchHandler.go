@@ -135,6 +135,9 @@ func httpDo(ctx context.Context, req *http.Request, f func(*http.Response, error
 	tr := &http.Transport{}
 	client := &http.Client{Transport: tr}
 	c := make(chan error, 1)
+	//这个地方其实是带模式的，首先client.Do是同步执行的代码，而且可以在另外的gorountine中取消这个client.Do请求
+	//So，在一个goroutine中执行同步的一段代码，然后在当前goroutine中，通过chan等待另外一个gorountine中代码的结束、或等到一个context的超时取消，如果是context超时，还要记得把client.Do取消掉
+	//这个代码模式，有点抽象，得仔细想一想。另外，zeromq，还不一定能套用上这个模式。可能得用其他的技巧实现超时退出的目的。看zmq的文档吧
 	go func() { c <- f(client.Do(req)) }()
 	select {
 	case <-ctx.Done():
