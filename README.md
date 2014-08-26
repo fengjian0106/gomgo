@@ -145,8 +145,10 @@ Path "/api/zmp?msg=xxx" send a request and get a reply. And the architecture is 
                                         |                            +--> | worker |                                                             
 +-----------------------------------+   |                                 +--------+                                                             
 |              client               | <-+                                                                                                        
-+-----------------------------------+                                                                                   </pre>                       
-
++-----------------------------------+                                                                                      
+</pre>                       
+  
+  
 
 Enter the dir zmqReqRepBrokerServer/nodejs-server, and install node.js dependency  
 ~~~
