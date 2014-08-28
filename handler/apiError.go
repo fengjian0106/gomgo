@@ -39,5 +39,7 @@ const (
 	ApiErrorZmqRequestTimeout     = 10503
 	ApiErrorZmqErr                = 10504
 
+	ApiErrorTaskQueueRequestTimeout = 10601
+
 	ApiErrorUnknow = 19901
 )
