@@ -119,6 +119,13 @@ func main() {
 	*/
 	apiRouter.Handle("/api/zmq", handler.ApiHandler{appCtx, handler.ZMQWithTimeoutHandler}).Methods("GET")
 
+	/**
+	/api/task/pub?msg=xxx AND /api/task/reqrep?msg=xxx   handler is a demo for goroutine worker
+	/api/task/pub does not need worker to reply, but /api/task/reqrep need
+	*/
+	apiRouter.Handle("/api/task/reqrep", handler.ApiHandler{appCtx, handler.ReqRepTaskHandler}).Methods("GET")
+	apiRouter.Handle("/api/task/pub", handler.ApiHandler{appCtx, handler.PubTaskHandler}).Methods("GET")
+
 	//<3> register middleware for api handler
 	// Allow 30 requests per minute
 	th := throttled.RateLimit(throttled.PerMin(30), &throttled.VaryBy{RemoteAddr: true}, store.NewMemStore(1000))
