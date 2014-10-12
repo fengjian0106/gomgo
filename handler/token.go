@@ -72,7 +72,7 @@ func createJwtTokenStrWithUserEmbed(userEmbed *database.UserEmbed) (string, erro
 
 func parseJwtTokenStrToUserEmbed(tokenStr string) (*database.UserEmbed, error) {
 	// validate the token
-	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) ([]byte, error) {
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		// since we only use the one private key to sign the tokens,
 		// we also only use its public counter part to verify
 		return verifyKey, nil

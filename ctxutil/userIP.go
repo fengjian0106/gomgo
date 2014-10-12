@@ -22,7 +22,9 @@ func IpFromRequest(req *http.Request) (net.IP, error) {
 }
 
 // userIPkey is the context key for the user IP address.
-var userIPKey context.Key = context.NewKey("context.userIPKey")
+// var userIPKey context.Key = context.NewKey("context.userIPKey")
+// 2014/10/12, api of context packet update !! no more context.NewKey type
+var userIPKey string = "context.userIPKey"
 
 // NewContext returns a new Context carrying userIP.
 func NewContextWithIp(ctx context.Context, userIP net.IP) context.Context {
